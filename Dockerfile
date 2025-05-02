@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
 RUN a2enmod rewrite
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+
 
 # Set working directory
 WORKDIR /var/www/html
