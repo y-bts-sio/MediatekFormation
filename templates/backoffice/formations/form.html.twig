@@ -1,0 +1,17 @@
+{% extends 'baseback.html.twig' %}
+
+
+{% block body %}
+    {% if editMode %}
+        <h2>Modifier la formation</h2>
+    {% else %}
+        <h2>Ajouter une nouvelle formation</h2>
+    {% endif %}
+    
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary mt-3">
+            {% if editMode %}Modifier{% else %}Ajouter{% endif %}
+        </button>
+    {{ form_end(form) }}
+{% endblock %}

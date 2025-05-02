@@ -1,0 +1,25 @@
+{% extends 'baseback.html.twig' %}
+
+
+{% block body %}
+    <h2>{{ editMode ? 'Modifier une playlist' : 'Ajouter une playlist' }}</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary mt-3">{{ editMode ? 'Modifier' : 'Ajouter' }}</button>
+    {{ form_end(form) }}
+
+    {% if editMode and formations is defined %}
+        <h3 class="mt-4">Formations associées à cette playlist</h3>
+        <ul class="list-group">
+            {% for formation in formations %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ formation.title }}
+                    <span class="badge bg-secondary">{{ formation.publishedAt|date('d/m/Y') }}</span>
+                </li>
+            {% else %}
+                <li class="list-group-item">Aucune formation associée.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

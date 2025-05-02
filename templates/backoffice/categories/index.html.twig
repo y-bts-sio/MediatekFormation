@@ -1,0 +1,46 @@
+{% extends 'baseback.html.twig' %}
+
+
+{% block body %}
+    <h2>Gestion des Catégories - Back-office</h2>
+
+    {# Formulaire d'ajout #}
+    <div class="mb-4">
+        <h4>Ajouter une catégorie</h4>
+        {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            <button type="submit" class="btn btn-success mt-2">Ajouter</button>
+        {{ form_end(form) }}
+    </div>
+
+    {# Liste des catégories #}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Formations liées</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.name }}</td>
+                <td>{{ categorie.formations|length }}</td>
+                <td>
+                    {% if categorie.formations|length == 0 %}
+                        <form method="POST" action="{{ path('backoffice_categories_delete', {id: categorie.id}) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ categorie.id) }}">
+                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    {% else %}
+                        <span class="text-muted">Impossible (liée)</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="3">Aucune catégorie.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

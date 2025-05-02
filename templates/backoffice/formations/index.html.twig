@@ -1,0 +1,77 @@
+{% extends 'baseback.html.twig' %}
+
+
+{% block body %}
+<h2>Gestion des Formations - Back-office</h2>
+<a href="{{ path('backoffice_formations_new') }}" class="btn btn-primary mb-3">Ajouter une formation</a>
+
+<table class="table table-striped">
+    <caption>Liste des formations</caption>
+    <thead>
+        <tr>
+            <th>
+                Formation<br>
+                <a href="{{ path('backoffice_formations_sort', {champ:'title', ordre:'ASC'}) }}" class="btn btn-info btn-sm">&lt;</a>
+                <a href="{{ path('backoffice_formations_sort', {champ:'title', ordre:'DESC'}) }}" class="btn btn-info btn-sm">&gt;</a>
+                <form method="POST" action="{{ path('backoffice_formations_findallcontain', {champ:'title'}) }}" class="mt-1">
+                    <input type="text" name="recherche" class="form-control form-control-sm" placeholder="Recherche" value="{{ valeur|default('') }}">
+                    <button type="submit" class="btn btn-info btn-sm mt-1">Filtrer</button>
+                </form>
+            </th>
+            <th>
+                Playlist<br>
+                <a href="{{ path('backoffice_formations_sort', {table:'playlist', champ:'name', ordre:'ASC'}) }}" class="btn btn-info btn-sm">&lt;</a>
+                <a href="{{ path('backoffice_formations_sort', {table:'playlist', champ:'name', ordre:'DESC'}) }}" class="btn btn-info btn-sm">&gt;</a>
+                <form method="POST" action="{{ path('backoffice_formations_findallcontain', {champ:'name', table:'playlist'}) }}" class="mt-1">
+                    <input type="text" name="recherche" class="form-control form-control-sm" placeholder="Recherche" value="{{ valeur|default('') }}">
+                    <button type="submit" class="btn btn-info btn-sm mt-1">Filtrer</button>
+                </form>
+            </th>
+            <th>
+                Catégories<br>
+                <form method="POST" action="{{ path('backoffice_formations_findallcontain', {champ:'id', table:'categories'}) }}" class="mt-1">
+                    <select name="recherche" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="">Toutes</option>
+                        {% for categorie in categories %}
+                            <option value="{{ categorie.id }}" {% if valeur is defined and valeur == categorie.id %}selected{% endif %}>
+                                {{ categorie.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </th>
+            <th>
+                Date<br>
+                <a href="{{ path('backoffice_formations_sort', {champ:'publishedAt', ordre:'ASC'}) }}" class="btn btn-info btn-sm">&lt;</a>
+                <a href="{{ path('backoffice_formations_sort', {champ:'publishedAt', ordre:'DESC'}) }}" class="btn btn-info btn-sm">&gt;</a>
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for formation in formations %}
+            <tr>
+                <td>{{ formation.title }}</td>
+                <td>{{ formation.playlist ? formation.playlist.name : 'N/A' }}</td>
+                <td>
+                    {% for categorie in formation.categories %}
+                        {{ categorie.name }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ formation.publishedAt|date('d/m/Y') }}</td>
+                <td>
+                    <a href="{{ path('backoffice_formations_edit', {id: formation.id}) }}" class="btn btn-secondary btn-sm">Modifier</a>
+                    <form method="POST" action="{{ path('backoffice_formations_delete', {id: formation.id}) }}" style="display:inline-block;" onsubmit="return confirm('Confirmez la suppression ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ formation.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Aucune formation trouvée.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

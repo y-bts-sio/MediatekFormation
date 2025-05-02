@@ -1,4 +1,6 @@
 {
+    "name": "y/mediatekformation",  
+    "description": " projet Symfony formation Mediatek",  
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -95,6 +97,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.6",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "6.4.*",
         "symfony/css-selector": "6.4.*",

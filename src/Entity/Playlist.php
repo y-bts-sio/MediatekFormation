@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Entité représentant une playlist contenant des formations.
+ */
 #[ORM\Entity(repositoryClass: PlaylistRepository::class)]
 class Playlist
 {
@@ -46,7 +49,6 @@ class Playlist
     public function setName(?string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -58,7 +60,6 @@ class Playlist
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -76,36 +77,40 @@ class Playlist
             $this->formations->add($formation);
             $formation->setPlaylist($this);
         }
-
         return $this;
     }
 
     public function removeFormation(Formation $formation): static
     {
-        if ($this->formations->removeElement($formation)) {
-            // set the owning side to null (unless already changed)
-            if ($formation->getPlaylist() === $this) {
-                $formation->setPlaylist(null);
-            }
+        if ($this->formations->removeElement($formation) && $formation->getPlaylist() === $this) {
+            $formation->setPlaylist(null);
         }
-
         return $this;
     }
-    
+
     /**
+     * Retourne la liste unique des catégories liées via les formations.
+     *
      * @return Collection<int, string>
      */
-    public function getCategoriesPlaylist() : Collection
+    public function getCategoriesPlaylist(): Collection
     {
         $categories = new ArrayCollection();
-        foreach($this->formations as $formation){
-            $categoriesFormation = $formation->getCategories();
-            foreach($categoriesFormation as $categorieFormation)
-            if(!$categories->contains($categorieFormation->getName())){
-                $categories[] = $categorieFormation->getName();
+        foreach ($this->formations as $formation) {
+            foreach ($formation->getCategories() as $categorie) {
+                if (!$categories->contains($categorie->getName())) {
+                    $categories[] = $categorie->getName();
+                }
             }
         }
         return $categories;
     }
-        
+
+    /**
+     * Retourne le nombre de formations dans la playlist.
+     */
+    public function getFormationCount(): int
+    {
+        return count($this->formations);
+    }
 }
