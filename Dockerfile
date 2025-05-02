@@ -1,8 +1,4 @@
 
-Yass <yass102710@gmail.com>
-06:22 (il y a 0 minute)
-À moi
-
 FROM php:8.2-apache
 
 # Installer les extensions PHP nécessaires
