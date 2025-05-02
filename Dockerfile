@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     git zip unzip libzip-dev libonig-dev libxml2-dev \
     && docker-php-ext-install pdo pdo_mysql
 
-# Enable Apache rewrite module for Symfony routing
+# Enable Apache rewrite module for Symfony routings
 RUN a2enmod rewrite
 
 # Install Composer
