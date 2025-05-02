@@ -1,31 +1,35 @@
+
+Yass <yass102710@gmail.com>
+06:22 (il y a 0 minute)
+À moi
+
 FROM php:8.2-apache
 
-# Install system dependencies
+# Installer les extensions PHP nécessaires
 RUN apt-get update && apt-get install -y \
-    git zip unzip libzip-dev libonig-dev libxml2-dev \
+    git zip unzip curl libzip-dev libonig-dev libxml2-dev \
     && docker-php-ext-install pdo pdo_mysql
 
-# Enable Apache rewrite module for Symfony routings
+# Activer le module Apache rewrite
 RUN a2enmod rewrite
 
-# Install Composer
+# Installer Composer manuellement
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
-
-# Set working directory
+# Définir le dossier de travail
 WORKDIR /var/www/html
 
-# Copy app files
+# Copier tous les fichiers du projet Symfony
 COPY . .
 
-# Install PHP dependencies
+# Installer les dépendances Symfony
 RUN composer install --no-dev --optimize-autoloader
 
-# Clear and warm up the cache
+# Nettoyer le cache Symfony
 RUN php bin/console cache:clear --env=prod
 
-# Set permissions
+# Donner les bons droits
 RUN chown -R www-data:www-data var
 
-# Expose port
+# Exposer le port
 EXPOSE 80
