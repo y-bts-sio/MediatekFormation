@@ -77,7 +77,7 @@ Cette page permet de lister les playlists et, pour chaque playlist, elle affiche
 La suppression d'une playlist n'est possible que si aucune formation n'est rattachée à elle.
 Les mêmes tris et filtres présents dans le front office sont présents dans le back office.
 Un bouton permet d'accéder au formulaire d'ajout d'une playlist. Les saisies sont contrôlées. L'ajout d'une playlist consiste juste à saisir son nom et sa description. Seul le champ name est obligatoire.
-Le clic sur le bouton permettant de modifier une playlist doit mène sur le même formulaire, mais cette fois prérempli. Cette fois, la liste des formations de la playlist apparaît, mais il ne doit pas être possible d'ajouter ou de supprimer une formation : ce n'est que dans le formulaire de la formation qu'il est possible de préciser sa playlist de rattachement.
+Le clic sur le bouton permettant de modifier une playlist mène sur le même formulaire, mais cette fois prérempli. Cette fois, la liste des formations de la playlist apparaît, mais il ne doit pas être possible d'ajouter ou de supprimer une formation : ce n'est que dans le formulaire de la formation qu'il est possible de préciser sa playlist de rattachement.
 
 ![Capture d'écran 2025-05-03 230312](https://github.com/user-attachments/assets/ad672e06-5c19-4aba-b18e-72eaf12d5154)
 
