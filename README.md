@@ -53,6 +53,44 @@ La partie centrale est séparée en 2 parties :<br>
 •	La partie gauche contient les informations de la playlist (titre, liste des catégories, description).<br>
 •	La partie droite contient la liste des formations contenues dans la playlist (miniature et titre) avec possibilité de cliquer sur une formation pour aller dans la page de la formation.<br>
 ![img6](https://github.com/user-attachments/assets/f216a9e7-084a-4683-9b4e-cada5574a0e2)
+
+# Back Office :
+
+## Authentification :
+Le back office n'est accessible qu'après authentification : un seul profil administrateur a le droit d’accès.
+Il est possible de se déconnecter, sur toutes les pages (avec le bouton de déconnexion).
+
+![Capture d'écran 2025-05-03 230215](https://github.com/user-attachments/assets/4718d20c-f2e9-4d81-abe3-69ffffeb0359)
+
+
+### Page Formations :
+Cette page permet de lister les formations et, pour chaque formation, elle affiche un bouton permettant de la supprimer (après confirmation) et un bouton permettant de la modifier.
+Si une formation est supprimée, elle s'enlève de la playlist où elle se trouvait.
+Les mêmes tris et filtres présents dans le front office sont présents dans le back office.
+Un bouton permet d'accéder au formulaire d'ajout d'une formation. Les saisies sont contrôlées. Seul le champ "description" n'est pas obligatoire ainsi que la sélection de catégories (une formation peut n'avoir aucune catégorie). La playlist et la ou les catégories sot sélectionnées dans une liste (une seule playlist par formation, plusieurs catégories possibles par formation). La date ne peut être postérieure à la date du jour. Le clic sur le bouton permettant de modifier une formation mène sur le même formulaire, mais cette fois prérempli.
+
+![Capture d'écran 2025-05-03 230254](https://github.com/user-attachments/assets/26969c3b-d607-43ba-bbe2-8617df94808a)
+
+
+### Page Playlists
+Cette page permet de lister les playlists et, pour chaque playlist, elle affiche un bouton permettant de la supprimer (après confirmation) et un bouton permettant de la modifier.
+La suppression d'une playlist n'est possible que si aucune formation n'est rattachée à elle.
+Les mêmes tris et filtres présents dans le front office sont présents dans le back office.
+Un bouton permet d'accéder au formulaire d'ajout d'une playlist. Les saisies sont contrôlées. L'ajout d'une playlist consiste juste à saisir son nom et sa description. Seul le champ name est obligatoire.
+Le clic sur le bouton permettant de modifier une playlist doit mène sur le même formulaire, mais cette fois prérempli. Cette fois, la liste des formations de la playlist apparaît, mais il ne doit pas être possible d'ajouter ou de supprimer une formation : ce n'est que dans le formulaire de la formation qu'il est possible de préciser sa playlist de rattachement.
+
+![Capture d'écran 2025-05-03 230312](https://github.com/user-attachments/assets/ad672e06-5c19-4aba-b18e-72eaf12d5154)
+
+
+### Page Catégories
+
+Cette page permet de lister les catégories et, pour chaque catégorie, elle affiche un bouton permettant de la supprimer. Attention, une catégorie ne peut être supprimée que si elle n'est rattachée à aucune formation. Dans la même page, un mini formulaire permet de saisir et d'ajouter directement une nouvelle catégorie, à condition que le nom de la catégorie n'existe pas déjà.
+
+![Capture d'écran 2025-05-03 230328](https://github.com/user-attachments/assets/d07d17c0-3d3c-4f5d-a4e8-f658ffe3dbcb)
+
+
+
+
 ## La base de données
 La base de données exploitée par le site est au format MySQL.
 ### Schéma conceptuel de données
@@ -60,6 +98,7 @@ Voici le schéma correspondant à la BDD.<br>
 ![img7](https://github.com/user-attachments/assets/f3eca694-bf96-4f6f-811e-9d11a7925e9e)
 <br>video_id contient le code YouTube de la vidéo, qui permet ensuite de lancer la vidéo à l'adresse suivante :<br>
 https://www.youtube.com/embed/<<<video_id>>>
+
 ### Relations issues du schéma
 <code><strong>formation (id, published_at, title, video_id, description, playlist_id)</strong>
 id : clé primaire
@@ -77,6 +116,8 @@ Remarques :
 Les clés primaires des entités sont en auto-incrémentation.<br>
 Le chemin des images (des 2 tailles) n'est pas mémorisé dans la BDD car il peut être fabriqué de la façon suivante :<br>
 "https://i.ytimg.com/vi/" suivi de, soit "/default.jpg" (pour la miniature), soit "/hqdefault.jpg" (pour l'image plus grande de la page d'accueil).
+
+
 ## Test de l'application en local
 - Vérifier que Composer, Git et Wamserver (ou équivalent) sont installés sur l'ordinateur.
 - Télécharger le code et le dézipper dans www de Wampserver (ou dossier équivalent) puis renommer le dossier en "mediatekformation".<br>
